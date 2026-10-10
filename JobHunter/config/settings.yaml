@@ -1,0 +1,41 @@
+# JobHunter AI Global Configuration
+
+app:
+  name: "JobHunter AI"
+  version: "1.0.0"
+  default_mode: "review" # Options: "review" (HITL pause for review), "auto" (full auto-submit)
+  headless_browser: false # false allows user to observe Playwright autofilling forms in real-time
+
+defaults:
+  target_role: "Full Stack Engineer"
+  secondary_roles:
+    - "Software Engineer"
+    - "Backend Engineer"
+    - "Frontend Engineer"
+    - "AI Engineer"
+  locations:
+    - "Remote"
+    - "United States"
+    - "India"
+    - "Hybrid"
+  experience_level: "Mid-Senior" # Entry, Mid, Senior, Lead
+  min_match_score: 50 # Percentage match to queue job for application (0 - 100)
+
+llm:
+  provider: "ollama" # "openai", "ollama", "gemini", or "mock" (offline fallback)
+  model_name: "llama3" # or "gpt-4o-mini", "gemini-1.5-flash"
+  temperature: 0.2
+  max_tokens: 1500
+
+ats_endpoints:
+  greenhouse:
+    base_url: "https://boards-api.greenhouse.io/v1/boards"
+  lever:
+    base_url: "https://api.lever.co/v0/postings"
+  ashby:
+    base_url: "https://api.ashbyhq.com/posting-api/job-board"
+
+browser:
+  timeout_ms: 30000
+  slow_mo_ms: 250 # Gentle human-like pacing for interactions
+  user_data_dir: "./data/browser_profile" # Persistent session to keep logins active

@@ -1,0 +1,29 @@
+{
+  "name": "k-apply-root",
+  "version": "1.0.0",
+  "description": "K-Apply - Autonomous AI Job Application Suite & Career Engine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test/verify.js && node test/test-storage.js && node test/test-autofill-results.js && node test/test-extension-api-sync.js && node test/test-web-db.js",
+    "test:ext": "node test/verify.js && node test/test-storage.js && node test/test-autofill-results.js && node test/test-extension-api-sync.js",
+    "test:web": "node test/test-web-db.js",
+    "test:hunter": "python -m pytest JobHunter/tests/",
+    "test:all": "npm test && npm run test:hunter",
+    "build:web": "npm --prefix web-dashboard run build",
+    "dev:web": "npm --prefix web-dashboard run dev",
+    "start:web": "npm --prefix web-dashboard run start",
+    "package:ext": "node scripts/package-extension.mjs",
+    "package": "npm run package:ext"
+  },
+  "keywords": [
+    "job-autofill",
+    "ats",
+    "career",
+    "chrome-extension",
+    "nextjs",
+    "playwright"
+  ],
+  "author": "K-Apply Team",
+  "license": "MIT"
+}

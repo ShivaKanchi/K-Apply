@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Apply</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="header-brand">
+        <svg class="header-icon" viewBox="0 0 24 24">
+          <path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor"/>
+        </svg>
+        <span class="header-title">K-Apply <span class="pro-badge">PRO</span></span>
+        <span id="backend-status-badge" class="backend-badge" title="Checking SaaS Command Center status...">● Checking...</span>
+      </div>
+      <button class="icon-btn" id="btn-open-dashboard" title="Open Full Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Detected Job Banner -->
+    <div class="job-card" id="job-card">
+      <div class="job-card-label">Detected Job</div>
+      <div class="job-card-role" id="detected-role">Scanning page...</div>
+      <div class="job-card-company" id="detected-company">Please wait</div>
+      <div class="job-card-loc" id="detected-location"></div>
+    </div>
+
+    <!-- Primary Actions -->
+    <div class="actions-section">
+      <button class="btn btn-primary" id="btn-autofill">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span>Autofill Form</span>
+      </button>
+
+      <button class="btn btn-secondary" id="btn-track-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Track / Save Job</span>
+      </button>
+
+      <button class="btn btn-secondary" id="btn-open-sidepanel" style="color: #2563eb; font-weight: 600;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="15" y1="3" x2="15" y2="21"/>
+        </svg>
+        <span>Open Side Panel</span>
+      </button>
+    </div>
+
+    <!-- Quick Track Drawer / Form (Collapsible) -->
+    <form class="track-form" id="track-form" style="display: none;">
+      <div class="form-group">
+        <label>Company</label>
+        <input type="text" id="track-company" required placeholder="Company Name" />
+      </div>
+      <div class="form-group">
+        <label>Role</label>
+        <input type="text" id="track-role" required placeholder="Role Title" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="track-status">
+            <option value="applied">Applied</option>
+            <option value="wishlist">Wishlist</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date Applied</label>
+          <input type="date" id="track-date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes (optional)</label>
+        <input type="text" id="track-notes" placeholder="Referral, salary note, etc." />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-sm">Save Application</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-cancel-track">Cancel</button>
+      </div>
+    </form>
+
+    <!-- Feedback / Status Alert -->
+    <div class="status-msg" id="status-msg" style="display: none;"></div>
+
+    <!-- Side Drawer Breakdown Trigger Button -->
+    <button class="btn btn-secondary" id="btn-open-side-drawer" style="display: none; margin-top: 8px; width: 100%; justify-content: center; font-size: 12px; border-color: #3b82f6; color: #2563eb;">
+      <span>📋 View Breakdown in Side Drawer</span>
+    </button>
+
+    <!-- Quick Stats & Footer -->
+    <footer class="popup-footer">
+      <div class="stat-pill">
+        <span class="stat-num" id="stat-apps-count">0</span>
+        <span class="stat-lbl">Tracked</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num" id="stat-qa-count">0</span>
+        <span class="stat-lbl">Q&A Items</span>
+      </div>
+      <button class="footer-link-btn" id="btn-goto-dashboard">
+        Dashboard &rarr;
+      </button>
+    </footer>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

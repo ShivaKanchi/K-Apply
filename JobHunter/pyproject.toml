@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "k-apply-jobhunter"
+version = "1.0.0"
+description = "Autonomous multi-ATS job discovery, intelligent screening Q&A generator, and application automation engine."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "K-Apply Team" }
+]
+keywords = ["job-automation", "ats", "playwright", "greenhouse", "lever", "ashby", "workday", "career"]
+dependencies = [
+    "playwright>=1.40.0",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "rich>=13.7.0",
+    "PyYAML>=6.0.1",
+    "pypdf>=4.0.0",
+    "python-docx>=1.1.0",
+    "streamlit>=1.30.0",
+    "pandas>=2.0.0",
+]
+
+[project.scripts]
+k-apply-hunter = "cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

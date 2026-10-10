@@ -1,0 +1,41 @@
+# K-Apply JobHunter - User Profile Template
+#
+# This file is intentionally blank. Fill in your own details before running the
+# Hunter engine. Values here supplement the resume for standard job form fields
+# (contact, demographics, work authorization).
+
+personal_info:
+  first_name: ""
+  last_name: ""
+  full_name: ""
+  email: ""
+  phone: ""
+  address:
+    city: ""
+    state: ""
+    country: ""
+    postal_code: ""
+
+social_profiles:
+  linkedin: ""
+  github: ""
+  portfolio: ""
+  twitter: ""
+
+preferences:
+  target_roles:
+    - ""
+  desired_salary: ""
+  currency: ""
+  notice_period_weeks: 0
+  employment_type: "" # Full-Time, Contract, Part-Time
+  work_authorization:
+    authorized_to_work: false
+    requires_sponsorship: false
+    future_sponsorship_needed: false
+
+demographics_eeoc: # Optional: standard EEOC questions often asked in US portals
+  gender: ""
+  race_ethnicity: ""
+  veteran_status: ""
+  disability_status: ""

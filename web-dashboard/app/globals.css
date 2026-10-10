@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  /* Geist font family */
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* K-Apply accent: Electric Blue (single accent, locked across all sections) */
+  --color-accent: oklch(54% 0.22 264);
+  --color-accent-hover: oklch(48% 0.22 264);
+  --color-accent-subtle: oklch(96% 0.04 264);
+  --color-accent-muted: oklch(60% 0.15 264);
+
+  /* Zinc palette */
+  --color-surface: oklch(99% 0 0);
+  --color-surface-elevated: oklch(97.5% 0 0);
+  --color-surface-hover: oklch(96% 0 0);
+
+  /* Border radius scale — all-soft system */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Z-index scale (no arbitrary z-50 spam) */
+  --z-nav: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+}
+
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-surface);
+  color: theme(colors.zinc.900);
+}
+
+.dark body {
+  background: theme(colors.zinc.950);
+  color: theme(colors.zinc.50);
+}
+
+code, kbd, pre, samp {
+  font-family: var(--font-mono);
+}
+
+/* Custom scrollbar — minimal */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: theme(colors.zinc.300); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: theme(colors.zinc.400); }
+.dark ::-webkit-scrollbar-thumb { background: theme(colors.zinc.700); }
+.dark ::-webkit-scrollbar-thumb:hover { background: theme(colors.zinc.600); }
+
+/* Accordion animations for Radix */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+.animate-accordion-down { animation: accordion-down 0.2s ease-out; }
+.animate-accordion-up { animation: accordion-up 0.2s ease-out; }
+
+/* Radar ping for status indicators */
+@keyframes radar-ping {
+  0%  { transform: scale(1); opacity: 0.8; }
+  70% { transform: scale(2.2); opacity: 0; }
+  100%{ transform: scale(1); opacity: 0; }
+}
+.animate-radar-ping { animation: radar-ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Gradient text utility */
+.text-gradient-blue {
+  background: linear-gradient(135deg, theme(colors.blue.500), theme(colors.indigo.400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,83 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-node-and-extension:
+    name: Node & Extension Test Suite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'web-dashboard/package-lock.json'
+
+      - name: Install dependencies in web-dashboard
+        run: |
+          cd web-dashboard
+          npm ci
+
+      - name: Run Core Extension & Storage Tests
+        run: |
+          node test/verify.js
+          node test/test-storage.js
+          node test/test-autofill-results.js
+          node test/test-web-db.js
+
+      - name: Build Next.js Web Dashboard
+        run: |
+          cd web-dashboard
+          npm run build
+
+      - name: Package Extension Bundle
+        run: |
+          node scripts/package-extension.mjs
+
+      - name: Upload Extension Artifact
+        if: matrix.node-version == '20.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: k-apply-chrome-extension
+          path: dist/*.zip
+          retention-days: 14
+
+  test-jobhunter-python:
+    name: JobHunter Python Test Suite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'JobHunter/requirements.txt'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r JobHunter/requirements.txt
+          pip install pytest
+
+      - name: Run Pytest Suite
+        run: |
+          python -m pytest JobHunter/tests/ -v

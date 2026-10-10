@@ -1,0 +1,57 @@
+name: Release & Package Extension
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Package Extension & Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies in web-dashboard
+        run: |
+          cd web-dashboard
+          npm ci
+
+      - name: Run Verification Tests
+        run: |
+          node test/verify.js
+          node test/test-storage.js
+          node test/test-autofill-results.js
+          node test/test-web-db.js
+
+      - name: Package Chrome Extension
+        run: |
+          node scripts/package-extension.mjs
+
+      - name: Generate Checksums
+        run: |
+          cd dist
+          sha256sum *.zip > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+          draft: false
+          prerelease: false
+          generate_release_notes: true

@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "K-Apply - Autonomous Job Autofill & Career Suite",
+  "version": "1.0.0",
+  "description": "Intelligently autofills job applications across ATS portals, tracks submissions, and syncs with K-Apply Command Center and Hunter AI.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "K-Apply"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*",
+    "<all_urls>"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content-script.js"],
+      "css": ["content/floating-widget.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "utils/*",
+        "data/*",
+        "content/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

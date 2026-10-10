@@ -1,0 +1,56 @@
+services:
+  web-dashboard:
+    build:
+      context: ./web-dashboard
+      dockerfile: Dockerfile
+    container_name: k-apply-dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/kapply
+      - MONGODB_DB=kapply
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.1
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - k-apply-network
+
+  mongodb:
+    image: mongo:7.0
+    container_name: k-apply-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - k-apply-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: k-apply-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - k-apply-network
+
+networks:
+  k-apply-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+  ollama_models:
